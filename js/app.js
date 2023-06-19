@@ -1,4 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+//son bonne réponse
+const correctSound = new Audio('asset/correct.mp3');
+//son mauvaise réponse
+const incorrectSound = new Audio('asset/incorrect.mp3');
+//son reset
+const resetSound = new Audio('asset/reset.mp3');
+//son changer
+const changeSound = new Audio('asset/changer.mp3');
+
   const getRandomNumber = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
@@ -13,9 +23,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     generateQuestion();
+
   };
 
-  document.getElementById('changeRange').addEventListener('click', changeRange);
+  document.getElementById('changeRange').addEventListener('click', () => {
+    changeRange();
+
+    changeSound.play();
+  });
+
 
   const generateQuestion = () => {
     const min = parseInt(document.getElementById('min').value, 10);
@@ -74,8 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (answer === correctAnswer) {
       increaseScore();
       resultElement.textContent = 'Correct!';
+      correctSound.play();
     } else {
       resultElement.textContent = `Incorrect. La réponse était ${correctAnswer}.`;
+      incorrectSound.play();
     }
 
     generateQuestion();
@@ -91,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const restartGame = () => {
 document.getElementById('score').textContent = 'Score: 0';
 resetTimer();
+resetSound.play();
 
 };
 
@@ -98,6 +117,7 @@ document.getElementById('restart').addEventListener('click', restartGame);
 
   const changeMode = () => {
     generateQuestion();
+    changeSound.play();
   };
 
   document.getElementById('submit').addEventListener('click', checkAnswer);

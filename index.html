@@ -5,16 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Mon menu web">
-    <link rel="icon" type="image" sizes="32x32" href="asset/">
+    <link rel="icon" type="image" sizes="32x32" href="asset/3965108.png">
     <link rel="stylesheet" href="css/style.css">
 
     
     <title>Menu contextuel</title>
 </head>
 <body>
-  <h1>Mini Jeu de Calcul</h1>
+  
+  <div class="container">
+  <h1 id="timer">Temps: 0 secondes</h1>
   <p id="question"></p>
+  
   <input type="number" id="answer" />
+  
   <button id="submit">Soumettre</button>
   <p id="result"></p>
   <p id="score">Score: 0</p>
@@ -40,241 +44,14 @@
     </div>
 
   </div>
+  </div>
 
 
 
     <script src="js/app.js"></script>
     <script src="https://kit.fontawesome.com/7c8801c017.js" crossorigin="anonymous"></script>
-    <script>
-      const getRandomNumber = (min, max) => {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
-//le joueur peux choisir la range de nombre luit même dans le html directement
-    const changeRange = () => {
-      const min = parseInt(document.getElementById('min').value, 10);
-      const max = parseInt(document.getElementById('max').value, 10);
 
-      if (min > max) {
-        alert('Le nombre minimum doit être inférieur au nombre maximum.');
-        return;
-      }
-
-      generateQuestion();
-    };
-
-    document.getElementById('changeRange').addEventListener('click', changeRange);
-
-    const generateQuestion = () => {
-      const min = parseInt(document.getElementById('min').value, 10);
-      const max = parseInt(document.getElementById('max').value, 10);
-
-      const num1 = getRandomNumber(min, max);
-      const num2 = getRandomNumber(min, max);
-
-      const operator = getSelectedOperator();
-
-      document.getElementById('question').textContent = `${num1} ${operator} ${num2}`;
-    };
-
-
-    const getSelectedOperator = () => {
-      const selectElement = document.getElementById('mode');
-      const selectedValue = selectElement.value;
-
-      switch (selectedValue) {
-        case 'addition':
-          return '+';
-        case 'soustraction':
-          return '-';
-        case 'multiplication':
-          return '*';
-        default:
-          return '+';
-      }
-    };
-
-    const checkAnswer = () => {
-      const answer = parseInt(document.getElementById('answer').value, 10);
-      const questionText = document.getElementById('question').textContent;
-      const operator = getSelectedOperator();
-      const [num1, num2] = questionText.split(operator).map(Number);
-
-      let correctAnswer;
-
-      switch (operator) {
-        case '+':
-          correctAnswer = num1 + num2;
-          break;
-        case '-':
-          correctAnswer = num1 - num2;
-          break;
-        case '*':
-          correctAnswer = num1 * num2;
-          break;
-        default:
-          correctAnswer = 0;
-          break;
-      }
-
-      const resultElement = document.getElementById('result');
-      if (answer === correctAnswer) {
-        increaseScore();
-        resultElement.textContent = 'Correct!';
-      } else {
-        resultElement.textContent = `Incorrect. La réponse était ${correctAnswer}.`;
-      }
-
-      generateQuestion();
-    };
-
-    const increaseScore = () => {
-      const scoreElement = document.getElementById('score');
-      const currentScore = parseInt(scoreElement.textContent.split(':')[1], 10);
-      const newScore = currentScore + 1;
-      scoreElement.textContent = `Score: ${newScore}`;
-    };
-
-    const restartGame = () => {
-  document.getElementById('score').textContent = 'Score: 0';
-};
-
-document.getElementById('restart').addEventListener('click', restartGame);
-
-    const changeMode = () => {
-      generateQuestion();
-    };
-
-    document.getElementById('submit').addEventListener('click', checkAnswer);
-    document.getElementById('restart').addEventListener('click', restartGame);
-    document.getElementById('changeMode').addEventListener('click', changeMode);
-
-    //faire en sorte que quand j'appui sur la touche entrer ça valide la réponse
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        checkAnswer();
-      }
-    });
-
-    //et reset l'espace de réponse quand je clique sur le bouton et sur entrer aussi
-    document.getElementById('submit').addEventListener('click', () => {
-      document.getElementById('answer').value = '';
-    });
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter') {
-        document.getElementById('answer').value = '';
-      }
-    });
-
-    
-    
-
-    generateQuestion();
-    </script>
-    <style>
-        /*import la police Geneva*/
-        body {
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 0;
-  width: 20%;
-    margin: auto;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.card {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  width: 100%;
-  max-width: 600px;
-}
-
-h1 {
-  color: #333;
-  font-size: 28px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-h2 {
-  color: #333;
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-#question {
-  font-size: 24px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-input[type="number"] {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-}
-
-button {
-  display: block;
-  width: 100%;
-  padding: 12px 24px;
-  font-size: 16px;
-  background-color: #1e90ff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #147bcd;
-}
-
-#result {
-  font-size: 18px;
-  margin-top: 10px;
-  text-align: center;
-}
-
-#score {
-  font-size: 18px;
-  margin-top: 20px;
-  text-align: center;
-}
-
-select {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  box-sizing: border-box;
-}
-
-label {
-  font-size: 16px;
-  margin-bottom: 10px;
-  display: block;
-}
-
-    </style>
+  
 </body>
 
 </html>
